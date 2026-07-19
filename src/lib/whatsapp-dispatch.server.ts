@@ -2,7 +2,7 @@
 import { sendWhatsAppTemplate } from "./whatsapp.server";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
-const TEMPLATE_NAME = "crm_new";
+const TEMPLATE_NAME = "whatsapp_testing_";
 
 export async function sendInitialWhatsApp(leadId: string) {
   const { data: lead, error: leadErr } = await supabaseAdmin
@@ -65,7 +65,7 @@ export async function sendInitialWhatsApp(leadId: string) {
     templateName,
     language,
     variables: [firstName],
-    ...(templateName === "justdial_lead_welcome_infobip"
+    ...(templateName === "whatsapp_testing_"
       ? { headerImageUrl: process.env.META_WHATSAPP_HEADER_IMAGE_URL }
       : {}),
   });
@@ -170,7 +170,7 @@ export async function retryQueuedMessage(queueId: string) {
     templateName,
     language,
     variables: [firstName],
-    ...(templateName === "justdial_lead_welcome_infobip"
+    ...(templateName === "whatsapp_testing_"
       ? { headerImageUrl: process.env.META_WHATSAPP_HEADER_IMAGE_URL }
       : {}),
   });
