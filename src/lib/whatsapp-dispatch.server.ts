@@ -2,7 +2,7 @@
 import { sendWhatsAppTemplate } from "./whatsapp.server";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
-const TEMPLATE_NAME = "justdial_lead_welcome_infobip";
+const TEMPLATE_NAME = "crm_new";
 
 export async function sendInitialWhatsApp(leadId: string) {
   const { data: lead, error: leadErr } = await supabaseAdmin
@@ -17,7 +17,7 @@ export async function sendInitialWhatsApp(leadId: string) {
 
   // pick default active template
   let templateName = TEMPLATE_NAME;
-  let language = process.env.META_WHATSAPP_DEFAULT_TEMPLATE_LANG || "en";
+  let language = process.env.META_WHATSAPP_DEFAULT_TEMPLATE_LANG || "en_US";
   const { data: tpl } = await supabaseAdmin
     .from("templates")
     .select("name, language")
@@ -58,11 +58,13 @@ export async function sendInitialWhatsApp(leadId: string) {
     description: `Sending WhatsApp template "${templateName}"`,
   });
 
+  const firstName = (lead.name || "Customer").trim().split(/\s+/)[0];
+
   const res = await sendWhatsAppTemplate({
     to: lead.mobile,
     templateName,
     language,
-    variables: [lead.name || "Customer"],
+    variables: [firstName],
   });
 
   if (res.ok && res.waMessageId) {
@@ -150,7 +152,7 @@ export async function retryQueuedMessage(queueId: string) {
   }
 
   const templateName = msg.template_name || TEMPLATE_NAME;
-  const language = process.env.META_WHATSAPP_DEFAULT_TEMPLATE_LANG || "en";
+  const language = process.env.META_WHATSAPP_DEFAULT_TEMPLATE_LANG || "en_US";
 
   await supabaseAdmin
     .from("messages")
@@ -158,11 +160,13 @@ export async function retryQueuedMessage(queueId: string) {
     .eq("id", msg.id);
   await supabaseAdmin.from("leads").update({ wa_status: "sending" }).eq("id", lead.id);
 
+  const firstName = (lead.name || "Customer").trim().split(/\s+/)[0];
+
   const res = await sendWhatsAppTemplate({
     to: lead.mobile,
     templateName,
     language,
-    variables: [lead.name || "Customer"],
+    variables: [firstName],
   });
 
   if (res.ok && res.waMessageId) {
