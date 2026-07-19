@@ -19,6 +19,7 @@ import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedIntegrationsRouteImport } from './routes/_authenticated/integrations'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedLeadsIndexRouteImport } from './routes/_authenticated/leads.index'
+import { Route as ApiPublicWebhookRouteImport } from './routes/api/public/webhook'
 import { Route as AuthenticatedLeadsNewRouteImport } from './routes/_authenticated/leads.new'
 import { Route as AuthenticatedLeadsImportRouteImport } from './routes/_authenticated/leads.import'
 import { Route as AuthenticatedLeadsLeadIdRouteImport } from './routes/_authenticated/leads.$leadId'
@@ -76,6 +77,11 @@ const AuthenticatedLeadsIndexRoute = AuthenticatedLeadsIndexRouteImport.update({
   path: '/leads/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiPublicWebhookRoute = ApiPublicWebhookRouteImport.update({
+  id: '/api/public/webhook',
+  path: '/api/public/webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedLeadsNewRoute = AuthenticatedLeadsNewRouteImport.update({
   id: '/leads/new',
   path: '/leads/new',
@@ -123,6 +129,7 @@ export interface FileRoutesByFullPath {
   '/leads/$leadId': typeof AuthenticatedLeadsLeadIdRoute
   '/leads/import': typeof AuthenticatedLeadsImportRoute
   '/leads/new': typeof AuthenticatedLeadsNewRoute
+  '/api/public/webhook': typeof ApiPublicWebhookRoute
   '/leads/': typeof AuthenticatedLeadsIndexRoute
   '/api/public/cron/whatsapp-retry': typeof ApiPublicCronWhatsappRetryRoute
   '/api/public/webhooks/lead-intake': typeof ApiPublicWebhooksLeadIntakeRoute
@@ -140,6 +147,7 @@ export interface FileRoutesByTo {
   '/leads/$leadId': typeof AuthenticatedLeadsLeadIdRoute
   '/leads/import': typeof AuthenticatedLeadsImportRoute
   '/leads/new': typeof AuthenticatedLeadsNewRoute
+  '/api/public/webhook': typeof ApiPublicWebhookRoute
   '/leads': typeof AuthenticatedLeadsIndexRoute
   '/api/public/cron/whatsapp-retry': typeof ApiPublicCronWhatsappRetryRoute
   '/api/public/webhooks/lead-intake': typeof ApiPublicWebhooksLeadIntakeRoute
@@ -159,6 +167,7 @@ export interface FileRoutesById {
   '/_authenticated/leads/$leadId': typeof AuthenticatedLeadsLeadIdRoute
   '/_authenticated/leads/import': typeof AuthenticatedLeadsImportRoute
   '/_authenticated/leads/new': typeof AuthenticatedLeadsNewRoute
+  '/api/public/webhook': typeof ApiPublicWebhookRoute
   '/_authenticated/leads/': typeof AuthenticatedLeadsIndexRoute
   '/api/public/cron/whatsapp-retry': typeof ApiPublicCronWhatsappRetryRoute
   '/api/public/webhooks/lead-intake': typeof ApiPublicWebhooksLeadIntakeRoute
@@ -178,6 +187,7 @@ export interface FileRouteTypes {
     | '/leads/$leadId'
     | '/leads/import'
     | '/leads/new'
+    | '/api/public/webhook'
     | '/leads/'
     | '/api/public/cron/whatsapp-retry'
     | '/api/public/webhooks/lead-intake'
@@ -195,6 +205,7 @@ export interface FileRouteTypes {
     | '/leads/$leadId'
     | '/leads/import'
     | '/leads/new'
+    | '/api/public/webhook'
     | '/leads'
     | '/api/public/cron/whatsapp-retry'
     | '/api/public/webhooks/lead-intake'
@@ -213,6 +224,7 @@ export interface FileRouteTypes {
     | '/_authenticated/leads/$leadId'
     | '/_authenticated/leads/import'
     | '/_authenticated/leads/new'
+    | '/api/public/webhook'
     | '/_authenticated/leads/'
     | '/api/public/cron/whatsapp-retry'
     | '/api/public/webhooks/lead-intake'
@@ -225,6 +237,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   DataDeletionRoute: typeof DataDeletionRoute
   PrivacyRoute: typeof PrivacyRoute
+  ApiPublicWebhookRoute: typeof ApiPublicWebhookRoute
   ApiPublicCronWhatsappRetryRoute: typeof ApiPublicCronWhatsappRetryRoute
   ApiPublicWebhooksLeadIntakeRoute: typeof ApiPublicWebhooksLeadIntakeRoute
   ApiPublicWebhooksMetaRoute: typeof ApiPublicWebhooksMetaRoute
@@ -302,6 +315,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLeadsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/webhook': {
+      id: '/api/public/webhook'
+      path: '/api/public/webhook'
+      fullPath: '/api/public/webhook'
+      preLoaderRoute: typeof ApiPublicWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/leads/new': {
       id: '/_authenticated/leads/new'
       path: '/leads/new'
@@ -378,6 +398,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   DataDeletionRoute: DataDeletionRoute,
   PrivacyRoute: PrivacyRoute,
+  ApiPublicWebhookRoute: ApiPublicWebhookRoute,
   ApiPublicCronWhatsappRetryRoute: ApiPublicCronWhatsappRetryRoute,
   ApiPublicWebhooksLeadIntakeRoute: ApiPublicWebhooksLeadIntakeRoute,
   ApiPublicWebhooksMetaRoute: ApiPublicWebhooksMetaRoute,
