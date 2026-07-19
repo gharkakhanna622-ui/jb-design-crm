@@ -16,5 +16,15 @@ export default defineConfig({
     server: {
       allowedHosts: [".ngrok-free.dev", ".ngrok.io", "localhost", "127.0.0.1"],
     },
+    define: {
+      "process.env.SUPABASE_URL": JSON.stringify(process.env.SUPABASE_URL || ""),
+      "process.env.SUPABASE_PUBLISHABLE_KEY": JSON.stringify(
+        process.env.SUPABASE_PUBLISHABLE_KEY || "",
+      ),
+      "process.env.VITE_SUPABASE_URL": JSON.stringify(process.env.VITE_SUPABASE_URL || ""),
+      "process.env.VITE_SUPABASE_PUBLISHABLE_KEY": JSON.stringify(
+        process.env.VITE_SUPABASE_PUBLISHABLE_KEY || "",
+      ),
+    },
   },
 });
