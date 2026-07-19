@@ -17,7 +17,7 @@ export async function sendInitialWhatsApp(leadId: string) {
 
   // pick default active template
   let templateName = TEMPLATE_NAME;
-  let language = process.env.META_WHATSAPP_DEFAULT_TEMPLATE_LANG || "en_US";
+  let language = process.env.META_WHATSAPP_DEFAULT_TEMPLATE_LANG || "en";
   const { data: tpl } = await supabaseAdmin
     .from("templates")
     .select("name, language")
@@ -27,9 +27,6 @@ export async function sendInitialWhatsApp(leadId: string) {
   if (tpl) {
     templateName = tpl.name;
     language = tpl.language;
-  }
-  if (language === "en") {
-    language = "en_US";
   }
 
   // create message row
@@ -158,10 +155,7 @@ export async function retryQueuedMessage(queueId: string) {
   }
 
   let templateName = msg.template_name || TEMPLATE_NAME;
-  let language = process.env.META_WHATSAPP_DEFAULT_TEMPLATE_LANG || "en_US";
-  if (language === "en") {
-    language = "en_US";
-  }
+  let language = process.env.META_WHATSAPP_DEFAULT_TEMPLATE_LANG || "en";
 
   await supabaseAdmin
     .from("messages")
