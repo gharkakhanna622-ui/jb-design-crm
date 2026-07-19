@@ -11,6 +11,15 @@ const errorMiddleware = createMiddleware().server(async ({ next }) => {
       throw error;
     }
     console.error(error);
+
+    // If the request is an RPC or API call (does not accept HTML), rethrow the error
+    // so TanStack Start client can receive and parse the serialized error correctly.
+    const request = getRequest();
+    const accept = request?.headers?.get("accept") || "";
+    if (!accept.includes("text/html")) {
+      throw error;
+    }
+
     return new Response(renderErrorPage(), {
       status: 500,
       headers: { "content-type": "text/html; charset=utf-8" },
