@@ -68,6 +68,9 @@ export async function sendInitialWhatsApp(leadId: string) {
     templateName,
     language,
     variables: [firstName],
+    ...(templateName === "justdial_lead_welcome_infobip"
+      ? { headerImageUrl: process.env.META_WHATSAPP_HEADER_IMAGE_URL }
+      : {}),
   });
 
   if (res.ok && res.waMessageId) {
@@ -173,6 +176,9 @@ export async function retryQueuedMessage(queueId: string) {
     templateName,
     language,
     variables: [firstName],
+    ...(templateName === "justdial_lead_welcome_infobip"
+      ? { headerImageUrl: process.env.META_WHATSAPP_HEADER_IMAGE_URL }
+      : {}),
   });
 
   if (res.ok && res.waMessageId) {

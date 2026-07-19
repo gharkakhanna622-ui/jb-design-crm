@@ -52,7 +52,7 @@ export async function sendWhatsAppTemplate(input: SendTemplateInput): Promise<Se
   }
 
   const to = normalizeIndianMobile(input.to);
-  const headerImageUrl = input.headerImageUrl || process.env.META_WHATSAPP_HEADER_IMAGE_URL;
+  const headerImageUrl = input.headerImageUrl;
 
   const components: Array<Record<string, unknown>> = [];
   if (headerImageUrl) {
