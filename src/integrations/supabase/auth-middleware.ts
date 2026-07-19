@@ -13,7 +13,9 @@ export const requireSupabaseAuth = createMiddleware({ type: "function" }).server
     if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
       const missing = [
         ...(!SUPABASE_URL ? ["SUPABASE_URL / VITE_SUPABASE_URL"] : []),
-        ...(!SUPABASE_PUBLISHABLE_KEY ? ["SUPABASE_PUBLISHABLE_KEY / VITE_SUPABASE_PUBLISHABLE_KEY"] : []),
+        ...(!SUPABASE_PUBLISHABLE_KEY
+          ? ["SUPABASE_PUBLISHABLE_KEY / VITE_SUPABASE_PUBLISHABLE_KEY"]
+          : []),
       ];
       const message = `Missing Supabase environment variable(s): ${missing.join(", ")}. Please configure them in your Vercel Project Settings under Environment Variables.`;
       console.error(`[Supabase] ${message}`);
