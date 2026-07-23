@@ -2,7 +2,7 @@
 import { sendWhatsAppTemplate } from "./whatsapp.server";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
-const TEMPLATE_NAME = "whatsapp_testing_";
+const TEMPLATE_NAME = "temp_1_crm";
 
 export async function sendInitialWhatsApp(leadId: string) {
   const { data: lead, error: leadErr } = await supabaseAdmin
