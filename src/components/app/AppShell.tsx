@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import {
   LayoutDashboard,
   Users,
+  MessageCircle,
   MessageSquareText,
   FileText,
   Settings,
@@ -20,6 +21,7 @@ import { getMe } from "@/lib/me.functions";
 const nav = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/leads", label: "Leads", icon: Users },
+  { to: "/inbox", label: "Inbox", icon: MessageCircle },
   { to: "/templates", label: "Templates", icon: MessageSquareText },
   { to: "/integrations", label: "Integrations", icon: FileText },
   { to: "/settings", label: "Settings", icon: Settings },
@@ -123,7 +125,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             </Link>
           </div>
         </header>
-        <main className="flex-1 px-4 py-6 lg:px-8 lg:py-8">{children}</main>
+        <main className={loc.pathname === "/inbox" ? "flex-1 overflow-hidden" : "flex-1 px-4 py-6 lg:px-8 lg:py-8"}>{children}</main>
       </div>
     </div>
   );
