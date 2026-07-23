@@ -60,14 +60,17 @@ export async function sendInitialWhatsApp(leadId: string) {
 
   const firstName = (lead.name || "Customer").trim().split(/\s+/)[0];
 
+  // Only pass variables/header for templates that actually use them.
+  // temp_1_crm is a fully static template — no body params, no image header.
+  const templateHasBodyVar = templateName !== "temp_1_crm";
+  const templateHasImageHeader = templateName === "whatsapp_testing_";
+
   const res = await sendWhatsAppTemplate({
     to: lead.mobile,
     templateName,
     language,
-    variables: [firstName],
-    ...(templateName === "whatsapp_testing_"
-      ? { headerImageUrl: process.env.META_WHATSAPP_HEADER_IMAGE_URL }
-      : {}),
+    ...(templateHasBodyVar ? { variables: [firstName] } : {}),
+    ...(templateHasImageHeader ? { headerImageUrl: process.env.META_WHATSAPP_HEADER_IMAGE_URL } : {}),
   });
 
   if (res.ok && res.waMessageId) {
@@ -165,14 +168,15 @@ export async function retryQueuedMessage(queueId: string) {
 
   const firstName = (lead.name || "Customer").trim().split(/\s+/)[0];
 
+  const templateHasBodyVar = templateName !== "temp_1_crm";
+  const templateHasImageHeader = templateName === "whatsapp_testing_";
+
   const res = await sendWhatsAppTemplate({
     to: lead.mobile,
     templateName,
     language,
-    variables: [firstName],
-    ...(templateName === "whatsapp_testing_"
-      ? { headerImageUrl: process.env.META_WHATSAPP_HEADER_IMAGE_URL }
-      : {}),
+    ...(templateHasBodyVar ? { variables: [firstName] } : {}),
+    ...(templateHasImageHeader ? { headerImageUrl: process.env.META_WHATSAPP_HEADER_IMAGE_URL } : {}),
   });
 
   if (res.ok && res.waMessageId) {
